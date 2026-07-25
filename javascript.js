@@ -1,7 +1,7 @@
 
 const books = [];
 
-function Book(title, author, pages, read){
+function Book(title = "untitled", author = "unknown", pages = 0, read = false){
     if (!new.target){
         throw Error("You must use the 'new' operator to call the constructor.");
     }
@@ -14,10 +14,12 @@ function Book(title, author, pages, read){
 }
 
 const testBook = new Book("The Book", "Ronny Dingus", 32, false);
+const testBookMissingValue = new Book();
 
 console.log(`Test book: ${testBook}`);
 
 books.push(testBook);
+books.push(testBookMissingValue);
 
 console.log(`Books: ${JSON.stringify(books)}`);
 
@@ -44,15 +46,37 @@ const tableContainer = document.getElementById("table-container");
 tableContainer.appendChild(table);
 
 
-// function to iterate through the Books array and display each on the page via a table
+// take an array of Books and a reference to a table element; for each Book, append a row to the table with the book's property values 
+function displayBooks(bookArray, table){
+    bookArray.forEach((book, i) => {
+        const row = document.createElement("tr");
+        Object.values(book).forEach((value, i) => {
+            const cell = document.createElement("td");
+            cell.className = Object.getOwnPropertyNames(book)[i];
+            cell.textContent = value;
+            row.appendChild(cell);
+        });
+        table.appendChild(row);
+    });
+}
 
+displayBooks(books, table);
 
-// function to create a Book object from arguments and store it in an array
+/* 
+    allow users to add a new book to Books;
+    - add a button to top of page; 
+    - on click, present a modal with book form 
+    - on submission of form, create a new book object, add to books array and update table
+*/
 
+/**
+ * allow users to remove books from the table
+ * - each row has a button; 
+ * - on click, remove that row from the table and display the updated table
+ */
 
-
-// function to allow users to add a new book to Books
-
-// function to allow users to remove a book from Books 
-
-// function to change a book's "read" status
+/**
+ * allow users to change a book's "read" status
+ * - each cell in "read" column is clickable
+ * - clicking toggles that cell's value between true and false
+ */
