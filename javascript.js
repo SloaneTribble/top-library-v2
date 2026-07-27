@@ -85,10 +85,26 @@ newBookDialog.addEventListener("close", (e) =>{
             : `ReturnValue: ${newBookDialog.returnValue}`;
 });
 
+function handleForm(form) {
+    console.log("Form handling:");
+    console.log(form);
+
+    const formElements = form.elements;
+    console.log(formElements);
+
+    const formInputs = document.getElementsByClassName("formInput");
+    console.log(formInputs[0].id);
+
+    console.log("End of form handling");
+}
+
 confirmButton.addEventListener("click", (event) => {
     event.preventDefault();
-    newBookDialog.close(newBookForm.elements["title"].value);
+    newBookDialog.close("Form submitted");
+    handleForm(newBookForm);
 })
+
+
 
 /**
  * allow users to remove books from the table
