@@ -16,8 +16,6 @@ function Book(title = "untitled", author = "unknown", pages = 0, read = false){
 const testBook = new Book("The Book", "Ronny Dingus", 32, false);
 const testBookMissingValue = new Book();
 
-console.log(`Test book: ${testBook}`);
-
 books.push(testBook);
 books.push(testBookMissingValue);
 
@@ -68,6 +66,29 @@ displayBooks(books, table);
     - on click, present a modal with book form 
     - on submission of form, create a new book object, add to books array and update table
 */
+
+const newBookButton = document.getElementById("newBookButton");
+const newBookDialog = document.getElementById("newBookDialog");
+const newBookForm = document.getElementById("newBookForm");
+const confirmButton = newBookDialog.querySelector("#confirmButton");
+const outputBox = document.querySelector("output");
+
+
+newBookButton.addEventListener("click", () => {
+    newBookDialog.showModal();
+});
+
+newBookDialog.addEventListener("close", (e) =>{
+    outputBox.value = 
+        newBookDialog.returnValue === "default" 
+            ? "Submitted"
+            : `ReturnValue: ${newBookDialog.returnValue}`;
+});
+
+confirmButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    newBookDialog.close(newBookForm.elements["title"].value);
+})
 
 /**
  * allow users to remove books from the table
