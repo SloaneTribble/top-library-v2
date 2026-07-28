@@ -1,7 +1,7 @@
 
 const books = [];
 
-function Book(title = "untitled", author = "unknown", pages = 0, read = false){
+function Book(title, author, pages, read){
     if (!new.target){
         throw Error("You must use the 'new' operator to call the constructor.");
     }
@@ -14,40 +14,47 @@ function Book(title = "untitled", author = "unknown", pages = 0, read = false){
 }
 
 const testBook = new Book("The Book", "Ronny Dingus", 32, false);
-const testBookMissingValue = new Book();
 
 books.push(testBook);
-books.push(testBookMissingValue);
 
-console.log(`Books: ${JSON.stringify(books)}`);
+
 
 // create an empty table with columns defined by the attributes in Book
 
-const table = document.createElement("table");
-table.border = "1"; // for visibility
+function createTableHeaders(bookObject) {
+    const table = document.createElement("table");
+    table.border = "1"; // for visibility
+    table.id = "bookTable";
 
-const bookProperties = Object.getOwnPropertyNames(testBook);
+    const bookProperties = Object.getOwnPropertyNames(bookObject);
 
-const headerRow = document.createElement("tr");
+    const headerRow = document.createElement("tr");
 
-bookProperties.forEach(text => {
-    const th = document.createElement("th");
-    th.textContent = text;
-    headerRow.appendChild(th);
-});
-table.appendChild(headerRow);
+    bookProperties.forEach(text => {
+        const th = document.createElement("th");
+        th.textContent = text;
+        headerRow.appendChild(th);
+    });
+    table.appendChild(headerRow);
 
-const row = document.createElement("tr");
-table.appendChild(row);
+    const row = document.createElement("tr");
+    table.appendChild(row);
 
-const tableContainer = document.getElementById("table-container");
-tableContainer.appendChild(table);
+    const tableContainer = document.getElementById("table-container");
+    tableContainer.appendChild(table);
+
+    return table;
+}
+
 
 
 // take an array of Books and a reference to a table element; for each Book, append a row to the table with the book's property values 
 function displayBooks(bookArray, table){
+    console.log(bookArray);
+    console.log(table);
     bookArray.forEach((book, i) => {
         const row = document.createElement("tr");
+        row.className = "bookRow";
         Object.values(book).forEach((value, i) => {
             const cell = document.createElement("td");
             cell.className = Object.getOwnPropertyNames(book)[i];
@@ -58,7 +65,13 @@ function displayBooks(bookArray, table){
     });
 }
 
-displayBooks(books, table);
+function createTable(bookObject, bookArray){
+    const table = createTableHeaders(bookObject);
+    displayBooks(bookArray, table);
+}
+
+createTable(testBook, books);
+
 
 /* 
     allow users to add a new book to Books;
@@ -87,22 +100,50 @@ newBookDialog.addEventListener("close", (e) =>{
 
 function handleForm(form) {
     console.log("Form handling:");
-    console.log(form);
-
-    const formElements = form.elements;
-    console.log(formElements);
 
     const formInputs = document.getElementsByClassName("formInput");
-    console.log(formInputs[0].id);
 
+    if (formInputs.length !== Book.length){
+        console.error("Number of form inputs does not match number of arguments passed to Book constructor");
+    }
+
+    let formValues = [];
+
+    for(let i = 0; i < formInputs.length; i++){
+        if (formInputs[i].type == "checkbox"){
+            formValues.push(formInputs[i].checked);
+        } else {
+            formValues.push(formInputs[i].value);
+        }
+        
+    }
+
+    console.log(formValues); 
+
+ 
+    const newBook = new Book(...formValues);
+    books.push(newBook);
+
+    console.log(books);
+
+
+
+  
+    
     console.log("End of form handling");
 }
 
 confirmButton.addEventListener("click", (event) => {
     event.preventDefault();
     newBookDialog.close("Form submitted");
+        // remove old books
+    let currentBooks = document.getElementsByClassName("bookRow");
+
     handleForm(newBookForm);
-})
+    const table = document.getElementById("bookTable");
+    table.remove();
+    createTable(testBook, books);
+});
 
 
 
