@@ -13,9 +13,11 @@ function Book(title, author, pages, read){
     this.uniqueID = crypto.randomUUID();
 }
 
+// instance of Book object used to create table headers 
 const testBook = new Book("The Book", "Ronny Dingus", 32, false);
 
 books.push(testBook);
+
 
 
 
@@ -46,24 +48,53 @@ function createTableHeaders(bookObject) {
     return table;
 }
 
-
-
 // take an array of Books and a reference to a table element; for each Book, append a row to the table with the book's property values 
 function displayBooks(bookArray, table){
-    console.log(bookArray);
-    console.log(table);
+
     bookArray.forEach((book, i) => {
         const row = document.createElement("tr");
         row.className = "bookRow";
         Object.values(book).forEach((value, i) => {
             const cell = document.createElement("td");
-            cell.className = Object.getOwnPropertyNames(book)[i];
+            const bookProperty = Object.getOwnPropertyNames(book)[i];
+            // each row has the same ID as the book it represents
+            if (bookProperty == "uniqueID") {row.id = value};
+            cell.className = bookProperty;
             cell.textContent = value;
             row.appendChild(cell);
+            
         });
+        const removeButtonCell = document.createElement("td");
+        removeButtonCell.textContent = "Remove";
+        row.addEventListener("click", (event) => {
+            handleRowClick(event);
+        });
+        row.appendChild(removeButtonCell);
         table.appendChild(row);
     });
 }
+
+// *** add a dialog to ask users to confirm before removing
+function handleRowClick(event) {
+    console.log(event.target.textContent);
+    console.log(event.currentTarget);
+    if (event.target.textContent == "Remove"){
+        removeRow(event.currentTarget.id);
+    }
+}
+
+function removeRow(rowId){
+    console.log(`Removing row ${rowId}`);
+    document.getElementById(rowId).remove();
+
+    const objectIndex = books.findIndex(book => book.uniqueID === rowId);
+
+    console.log(`Object found at index ${objectIndex}: ${books[objectIndex]}`);
+    books.splice(objectIndex, 1);
+    console.log(books);
+    
+}
+
 
 function createTable(bookObject, bookArray){
     const table = createTableHeaders(bookObject);
@@ -85,7 +116,11 @@ const newBookDialog = document.getElementById("newBookDialog");
 const newBookForm = document.getElementById("newBookForm");
 const confirmButton = newBookDialog.querySelector("#confirmButton");
 const outputBox = document.querySelector("output");
+const clearFormButton = document.getElementById("clearFormButton");
 
+clearFormButton.addEventListener("click", () => {
+    newBookForm.reset();
+});
 
 newBookButton.addEventListener("click", () => {
     newBookDialog.showModal();
@@ -99,9 +134,9 @@ newBookDialog.addEventListener("close", (e) =>{
 });
 
 function handleForm(form) {
-    console.log("Form handling:");
 
     const formInputs = document.getElementsByClassName("formInput");
+    console.log(formInputs[0].id);
 
     if (formInputs.length !== Book.length){
         console.error("Number of form inputs does not match number of arguments passed to Book constructor");
@@ -110,39 +145,34 @@ function handleForm(form) {
     let formValues = [];
 
     for(let i = 0; i < formInputs.length; i++){
-        if (formInputs[i].type == "checkbox"){
-            formValues.push(formInputs[i].checked);
-        } else {
-            formValues.push(formInputs[i].value);
+        switch (true){
+            case formInputs[i].type == "checkbox":
+                formValues.push(formInputs[i].checked);
+                break;
+            case formInputs[i].value == "":
+                formValues.push("Unknown");
+                break;
+            default:
+                formValues.push(formInputs[i].value);
         }
         
     }
 
-    console.log(formValues); 
 
  
     const newBook = new Book(...formValues);
     books.push(newBook);
-
-    console.log(books);
-
-
-
-  
-    
-    console.log("End of form handling");
 }
 
 confirmButton.addEventListener("click", (event) => {
     event.preventDefault();
     newBookDialog.close("Form submitted");
-        // remove old books
-    let currentBooks = document.getElementsByClassName("bookRow");
 
     handleForm(newBookForm);
     const table = document.getElementById("bookTable");
     table.remove();
     createTable(testBook, books);
+    newBookForm.reset();
 });
 
 

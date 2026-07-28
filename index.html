@@ -18,19 +18,20 @@
 
   <dialog id="newBookDialog">
     <div id="dialogTitle">Add a New Book</div>
+    <div id="clearFormButtonContainer"><button id="clearFormButton">Clear Form</button></div>
     <form id="newBookForm" action="">
       <p>
         <label for="title">
           Title:
-          <input type="text" name="title" id="title" class="formInput" value="The Book">
+          <input type="text" name="title" id="title" class="formInput">
         </label>
         <label for="author">
           Author:
-          <input type="text" name="author" id="author" class="formInput" value="John John">
+          <input type="text" name="author" id="author" class="formInput">
         </label>
         <label for="pages">
           Number of Pages:
-          <input type="number" name="pages" id="pages" class="formInput" value="12">
+          <input type="number" name="pages" id="pages" class="formInput">
         </label>
         <label for="read">
           Have you read it yet?
@@ -43,6 +44,7 @@
         <button id="confirmButton" value="default">Confirm</button>
       </div>
     </form>
+
   </dialog>
 
   <output></output>
