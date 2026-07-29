@@ -16,9 +16,14 @@ function Book(title, author, pages, read){
 // instance of Book object used to create table headers 
 const testBook = new Book("The Book", "Ronny Dingus", 32, false);
 
+// for styling -- delete later
+const testBook2 = new Book("Ancient Angles", "Terrellia Burgen", 32, true);
+
+const testBook3 = new Book("Roots of all Perplexities", "Sauce Hipster", 32, false);
+
 books.push(testBook);
-
-
+books.push(testBook2);
+books.push(testBook3);
 
 
 // create an empty table with columns defined by the attributes in Book
@@ -31,6 +36,7 @@ function createTableHeaders(bookObject) {
     const bookProperties = Object.getOwnPropertyNames(bookObject);
 
     const headerRow = document.createElement("tr");
+    headerRow.id = "headerRow";
 
     bookProperties.forEach(text => {
         const th = document.createElement("th");
@@ -118,13 +124,12 @@ newBookDialog.addEventListener("close", (e) =>{
     outputBox.value = 
         newBookDialog.returnValue === "default" 
             ? "Submitted"
-            : `ReturnValue: ${newBookDialog.returnValue}`;
+            : newBookDialog.returnValue;
 });
 
 function handleForm(form) {
 
     const formInputs = document.getElementsByClassName("formInput");
-    console.log(formInputs[0].id);
 
     if (formInputs.length !== Book.length){
         console.error("Number of form inputs does not match number of arguments passed to Book constructor");
@@ -154,7 +159,7 @@ function handleForm(form) {
 
 confirmButton.addEventListener("click", (event) => {
     event.preventDefault();
-    newBookDialog.close("Form submitted");
+    newBookDialog.close("New book added.");
 
     handleForm(newBookForm);
     resetTable();
@@ -175,10 +180,8 @@ confirmButton.addEventListener("click", (event) => {
  */
 
 function handleRowClick(event) {
-    console.log(event.target.textContent);
     const targetTextContent = event.target.textContent;
     const rowId = event.currentTarget.id;
-    console.log(event.currentTarget);
     if (targetTextContent == "Remove"){
         removeRow(rowId);
     }
@@ -194,14 +197,11 @@ function findBookIndex(bookArray, uniqueId){
 }
 
 function removeRow(rowId){
-    console.log(`Removing row ${rowId}`);
     document.getElementById(rowId).remove();
 
     const bookIndex = findBookIndex(books, rowId);
 
-    console.log(`Object found at index ${bookIndex}`);
     books.splice(bookIndex, 1);
-    console.log(books);
 }
 
 function toggleReadStatus(rowId){

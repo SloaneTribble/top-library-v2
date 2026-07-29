@@ -4,6 +4,7 @@ body,
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .github-logo {
@@ -15,7 +16,7 @@ body {
   min-height: 100vh;
   margin: 0;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto auto 3fr auto;
 }
 
 header {
@@ -33,3 +34,67 @@ footer {
   width: 2em;
 }
 
+::backdrop {
+  background-image: linear-gradient(
+    45deg,
+    magenta,
+    rebeccapurple,
+    dodgerblue,
+    green
+  );
+  opacity: 0.75;
+}
+
+dialog {
+  border: none;
+  border-radius: calc(5px * var(--ratio));
+  box-shadow: 0 0 #0000, 0 0 #0000, 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  padding: 1.6rem;
+  max-width: 400px;
+}
+
+#clearFormButtonContainer{
+  padding: .1rem;
+  margin: .1rem;
+}
+
+table {
+	display: table;
+  border: 2px solid;
+  border-collapse: separate;
+  text-indent: 0;
+  --color1: #9e9eff;
+  --color2: #ffba42;
+}
+
+thead,
+tfoot {
+	background: var(--color1);
+}
+
+tbody, tr:nth-child(even) {
+	background: color-mix(in srgb, var(--color1), transparent 60%);
+}
+
+tbody, tr:nth-child(odd) {
+	background: color-mix(in srgb, var(--color2), transparent 60%);
+}
+
+#headerRow {
+  background-color: papayawhip;
+}
+
+label{
+  margin: .2rem;
+  padding: .2rem;
+}
+
+input{
+  margin: .2rem;
+  padding: .2rem;
+  width: 100%;
+}
+
+/* dialog{
+  display:grid;
+} */
