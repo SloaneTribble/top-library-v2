@@ -39,6 +39,8 @@ function createTableHeaders(bookObject) {
     headerRow.id = "headerRow";
 
     bookProperties.forEach(text => {
+        // users don't need to see the book's ID 
+        if(text == "uniqueID"){return;}
         const th = document.createElement("th");
         th.textContent = text;
         headerRow.appendChild(th);
@@ -64,7 +66,11 @@ function displayBooks(bookArray, table){
             const cell = document.createElement("td");
             const bookProperty = Object.getOwnPropertyNames(book)[i];
             // each row has the same ID as the book it represents
-            if (bookProperty == "uniqueID") {row.id = value};
+            if (bookProperty == "uniqueID") {
+                row.id = value;
+                // no need to create a cell with uniqueID -- users don't need it
+                return;
+            };
             cell.className = bookProperty;
             cell.textContent = value;
             row.appendChild(cell);
@@ -109,7 +115,7 @@ const newBookButton = document.getElementById("newBookButton");
 const newBookDialog = document.getElementById("newBookDialog");
 const newBookForm = document.getElementById("newBookForm");
 const confirmButton = newBookDialog.querySelector("#confirmButton");
-const outputBox = document.querySelector("output");
+// const outputBox = document.querySelector("output");
 const clearFormButton = document.getElementById("clearFormButton");
 
 clearFormButton.addEventListener("click", () => {
@@ -120,12 +126,12 @@ newBookButton.addEventListener("click", () => {
     newBookDialog.showModal();
 });
 
-newBookDialog.addEventListener("close", (e) =>{
-    outputBox.value = 
-        newBookDialog.returnValue === "default" 
-            ? "Submitted"
-            : newBookDialog.returnValue;
-});
+// newBookDialog.addEventListener("close", (e) =>{
+//     outputBox.value = 
+//         newBookDialog.returnValue === "default" 
+//             ? "Submitted"
+//             : newBookDialog.returnValue;
+// });
 
 function handleForm(form) {
 
