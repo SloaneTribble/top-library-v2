@@ -74,26 +74,7 @@ function displayBooks(bookArray, table){
     });
 }
 
-// *** add a dialog to ask users to confirm before removing
-function handleRowClick(event) {
-    console.log(event.target.textContent);
-    console.log(event.currentTarget);
-    if (event.target.textContent == "Remove"){
-        removeRow(event.currentTarget.id);
-    }
-}
 
-function removeRow(rowId){
-    console.log(`Removing row ${rowId}`);
-    document.getElementById(rowId).remove();
-
-    const objectIndex = books.findIndex(book => book.uniqueID === rowId);
-
-    console.log(`Object found at index ${objectIndex}: ${books[objectIndex]}`);
-    books.splice(objectIndex, 1);
-    console.log(books);
-    
-}
 
 
 function createTable(bookObject, bookArray){
@@ -102,6 +83,13 @@ function createTable(bookObject, bookArray){
 }
 
 createTable(testBook, books);
+
+function resetTable(){
+    const table = document.getElementById("bookTable");
+    table.remove();
+    createTable(testBook, books);
+}
+
 
 
 /* 
@@ -169,13 +157,9 @@ confirmButton.addEventListener("click", (event) => {
     newBookDialog.close("Form submitted");
 
     handleForm(newBookForm);
-    const table = document.getElementById("bookTable");
-    table.remove();
-    createTable(testBook, books);
+    resetTable();
     newBookForm.reset();
 });
-
-
 
 /**
  * allow users to remove books from the table
@@ -183,8 +167,57 @@ confirmButton.addEventListener("click", (event) => {
  * - on click, remove that row from the table and display the updated table
  */
 
+
 /**
  * allow users to change a book's "read" status
  * - each cell in "read" column is clickable
  * - clicking toggles that cell's value between true and false
  */
+
+function handleRowClick(event) {
+    console.log(event.target.textContent);
+    const targetTextContent = event.target.textContent;
+    const rowId = event.currentTarget.id;
+    console.log(event.currentTarget);
+    if (targetTextContent == "Remove"){
+        removeRow(rowId);
+    }
+    else if (targetTextContent == "true" || targetTextContent == "false"){
+        toggleReadStatus(rowId);
+    } else{
+        return;
+    }
+}
+
+function findBookIndex(bookArray, uniqueId){
+    return bookArray.findIndex(book => book.uniqueID === uniqueId);
+}
+
+function removeRow(rowId){
+    console.log(`Removing row ${rowId}`);
+    document.getElementById(rowId).remove();
+
+    const bookIndex = findBookIndex(books, rowId);
+
+    console.log(`Object found at index ${bookIndex}`);
+    books.splice(bookIndex, 1);
+    console.log(books);
+}
+
+function toggleReadStatus(rowId){
+    const bookIndex = findBookIndex(books, rowId);
+
+    const bookReadStatus = books[bookIndex].read;
+
+    books[bookIndex].read = bookReadStatus == "true" ? "false" : "true";
+
+    resetTable();
+
+}
+
+
+
+
+
+
+
