@@ -38,10 +38,26 @@ body {
 .remove-button-cell{
   background-color: rgb(255, 65, 65);
   text-decoration: white dotted underline overline;
+  text-underline-offset: .2em;
   font-weight: bold;
   
 }
 
+.read-true{
+  background-color: green;
+}
+
+.read-true::before{
+  content: "\2714";
+}
+
+.read-false{
+  background-color: orange;
+}
+
+.read-false::before{
+  content: "\2715";
+}
 
 footer {
   min-height: 50px;
@@ -131,10 +147,6 @@ input{
   padding: .2rem;
   width: 100%;
 }
-
-/* dialog{
-  display:grid;
-} */
 
 button {
     display: inline-block;

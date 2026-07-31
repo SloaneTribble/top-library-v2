@@ -9,7 +9,7 @@ function Book(title, author, pages, read){
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.read = read;
+    this.read = read; // (boolean)
     this.uniqueID = crypto.randomUUID();
 }
 
@@ -19,7 +19,7 @@ const testBook = new Book("The Book", "Ronny Pingus", 312, false);
 // for styling -- delete later
 const testBook2 = new Book("Ancient Angles", "Terrellia Burgen", 240, true);
 
-const testBook3 = new Book("Roots of all Perplexities", "Sherrel Sauce Hipster", 1018, false);
+const testBook3 = new Book("Roots of all Perplexities", "Sherrel Sauce Hipster", 1018, true);
 
 books.push(testBook);
 books.push(testBook2);
@@ -71,7 +71,12 @@ function displayBooks(bookArray, table){
                 // no need to create a cell with uniqueID -- users don't need it
                 return;
             };
-            cell.className = bookProperty;
+            if (bookProperty == "read"){
+                cell.className = `${bookProperty}-${value}`;
+            } else {
+                cell.className = bookProperty;
+            }
+            
             cell.textContent = value;
             row.appendChild(cell);
             
@@ -224,7 +229,7 @@ function toggleReadStatus(rowId){
 
     const bookReadStatus = books[bookIndex].read;
 
-    books[bookIndex].read = bookReadStatus == "true" ? "false" : "true";
+    books[bookIndex].read = bookReadStatus == true ? false : true;
 
     resetTable();
 
