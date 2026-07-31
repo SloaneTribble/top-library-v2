@@ -19,10 +19,29 @@ body {
   grid-template-rows: auto auto 3fr auto;
 }
 
-header {
+#header-container {
   min-height: 50px;
   background: lightcyan;
 }
+
+#header-row {
+  background-color: #9e9eff;
+}
+
+#header-container, #table-container, #add-button-container, #footer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+}
+
+.remove-button-cell{
+  background-color: rgb(255, 65, 65);
+  text-decoration: white dotted underline overline;
+  font-weight: bold;
+  
+}
+
 
 footer {
   min-height: 50px;

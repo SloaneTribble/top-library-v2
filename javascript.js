@@ -14,12 +14,12 @@ function Book(title, author, pages, read){
 }
 
 // instance of Book object used to create table headers 
-const testBook = new Book("The Book", "Ronny Dingus", 32, false);
+const testBook = new Book("The Book", "Ronny Pingus", 312, false);
 
 // for styling -- delete later
-const testBook2 = new Book("Ancient Angles", "Terrellia Burgen", 32, true);
+const testBook2 = new Book("Ancient Angles", "Terrellia Burgen", 240, true);
 
-const testBook3 = new Book("Roots of all Perplexities", "Sauce Hipster", 32, false);
+const testBook3 = new Book("Roots of all Perplexities", "Sherrel Sauce Hipster", 1018, false);
 
 books.push(testBook);
 books.push(testBook2);
@@ -31,12 +31,12 @@ books.push(testBook3);
 function createTableHeaders(bookObject) {
     const table = document.createElement("table");
     table.border = "1"; // for visibility
-    table.id = "bookTable";
+    table.id = "book-table";
 
     const bookProperties = Object.getOwnPropertyNames(bookObject);
 
     const headerRow = document.createElement("tr");
-    headerRow.id = "headerRow";
+    headerRow.id = "header-row";
 
     bookProperties.forEach(text => {
         // users don't need to see the book's ID 
@@ -77,6 +77,7 @@ function displayBooks(bookArray, table){
             
         });
         const removeButtonCell = document.createElement("td");
+        removeButtonCell.className = "remove-button-cell";
         removeButtonCell.textContent = "Remove";
         row.addEventListener("click", (event) => {
             handleRowClick(event);
@@ -97,8 +98,12 @@ function createTable(bookObject, bookArray){
 createTable(testBook, books);
 
 function resetTable(){
-    const table = document.getElementById("bookTable");
-    table.remove();
+    const table = document.getElementById("book-table");
+
+    if(table){
+        table.remove();
+    }
+
     createTable(testBook, books);
 }
 
@@ -115,7 +120,7 @@ const newBookButton = document.getElementById("newBookButton");
 const newBookDialog = document.getElementById("newBookDialog");
 const newBookForm = document.getElementById("newBookForm");
 const confirmButton = newBookDialog.querySelector("#confirmButton");
-// const outputBox = document.querySelector("output");
+
 const clearFormButton = document.getElementById("clearFormButton");
 
 clearFormButton.addEventListener("click", () => {
@@ -126,6 +131,7 @@ newBookButton.addEventListener("click", () => {
     newBookDialog.showModal();
 });
 
+// const outputBox = document.querySelector("output");
 // newBookDialog.addEventListener("close", (e) =>{
 //     outputBox.value = 
 //         newBookDialog.returnValue === "default" 
@@ -156,8 +162,6 @@ function handleForm(form) {
         }
         
     }
-
-
  
     const newBook = new Book(...formValues);
     books.push(newBook);
@@ -208,6 +212,11 @@ function removeRow(rowId){
     const bookIndex = findBookIndex(books, rowId);
 
     books.splice(bookIndex, 1);
+
+    if(books.length == 0){
+        const table = document.getElementById("book-table");
+        table.remove();
+    }
 }
 
 function toggleReadStatus(rowId){
