@@ -14,7 +14,7 @@ function Book(title, author, pages, read){
 }
 
 // instance of Book object used to create table headers 
-const testBook = new Book("The Book", "Ronny Pingus", 312, false);
+const testBook = new Book("The Book", "Ronny Dangus", 312, false);
 
 // for styling -- delete later
 const testBook2 = new Book("Ancient Angles", "Terrellia Burgen", 240, true);
