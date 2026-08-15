@@ -191,19 +191,6 @@ confirmButton.addEventListener("click", (event) => {
     newBookForm.reset();
 });
 
-/**
- * allow users to remove books from the table
- * - each row has a button; 
- * - on click, remove that row from the table and display the updated table
- */
-
-
-/**
- * allow users to change a book's "read" status
- * - each cell in "read" column is clickable
- * - clicking toggles that cell's value between true and false
- */
-
 function handleRowClick(event) {
     const targetTextContent = event.target.textContent;
     const rowId = event.currentTarget.id;
