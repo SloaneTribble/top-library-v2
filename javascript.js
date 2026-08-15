@@ -1,16 +1,26 @@
 
 const books = [];
 
-function Book(title, author, pages, read){
-    if (!new.target){
-        throw Error("You must use the 'new' operator to call the constructor.");
-    }
+// function Book(title, author, pages, read){
+//     if (!new.target){
+//         throw Error("You must use the 'new' operator to call the constructor.");
+//     }
 
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read; // (boolean)
-    this.uniqueID = crypto.randomUUID();
+//     this.title = title;
+//     this.author = author;
+//     this.pages = pages;
+//     this.read = read; // (boolean)
+//     this.uniqueID = crypto.randomUUID();
+// }
+
+class Book {
+    constructor(title, author, pages, read){
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read; // (boolean)
+        this.uniqueID = crypto.randomUUID();
+    }
 }
 
 // instance of Book object used to create table headers 
